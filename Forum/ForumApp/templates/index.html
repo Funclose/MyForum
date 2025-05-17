@@ -32,9 +32,18 @@ img {
     <div>
         <h2>{{ cat.category_title }}</h2>
         <p><strong>описание: </strong>{{ cat.category_description }}</p> 
+        <form action="{% url 'removeCategory' cat.pk %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" style="color: white; background-color: red; border:none; padding: 5px 10px; cursor:pointer;">
+          Удалить
+        </button>
+      </form>
     </div>
     {% endfor %}
     </div>
+    <form action="{% url 'add_category' %}" method="get">
+      <button type="submit" class="btn btn-primary"><strong>Добавить категорию</strong></button>
+    </form>
    
      <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script> 
 </body>

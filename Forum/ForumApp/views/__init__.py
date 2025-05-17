@@ -1,1 +1,1 @@
-from .category import home
+from .category import *
