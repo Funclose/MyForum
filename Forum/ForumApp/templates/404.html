@@ -1,0 +1,9 @@
+{% extends 'index.html' %}
+
+{% block content %}
+  <div style="text-align: center; padding: 100px;">
+    <h1 style="font-size: 72px;">404</h1>
+    <p style="font-size: 24px;">Упс! Страница не найдена.</p>
+    <a href="{% url 'homePage' %}" class="btn btn-primary">На главную</a>
+  </div>
+{% endblock %}

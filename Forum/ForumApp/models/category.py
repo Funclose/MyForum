@@ -1,10 +1,11 @@
 from django.db import models
+from .card import Card
 
 class Category(models.Model):
-    category_title = models.CharField(null=False,max_length=40)
-    category_description =  models.TextField()
-                                                     #дописать путь к файлу
-    category_pathImage = models.ImageField(upload_to='assets/', blank=True, null=True)
+    category = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='posts')
+    author = models.CharField(max_length=100)
+    text = models.TextField()
+    likes = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
 
-    # def getAllCategory():
-    #     allCategory = 
+  
