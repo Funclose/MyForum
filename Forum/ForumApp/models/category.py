@@ -5,7 +5,7 @@ class Category(models.Model):
     category = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='posts')
     author = models.CharField(max_length=100)
     text = models.TextField()
-    likes = models.PositiveIntegerField(default=0)
+    likes = models.PositiveIntegerField(default=0, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
   

@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpRequest
-from ForumApp.models import Card
+from ForumApp.models import Card,Category
 
 def getAllCategory():
     card = Card.objects.all()
@@ -20,10 +20,7 @@ def createCard(request):
 
        
         return redirect("homePage")
-    return render(request, "category/addCategory.html")
-
-def test(request):
-    return render(request, '/category/categoryPage')
+    return render(request, "Card/addCard.html")
 
 
 def home(request:HttpRequest):
@@ -31,7 +28,15 @@ def home(request:HttpRequest):
     return render(request, 'index.html', {'cards': getCard})
 
 
-def category_detail(request, pk):
-    card = get_object_or_404(Card, pk=pk)
-    posts = Card.objects.filter(category=card)  # category — це ForeignKey до Card
-    return render(request, 'category/category_detail.html', {'card': card, 'posts': posts})
+# def card_detail(request, pk):
+#     card = get_object_or_404(Card, pk=pk)
+#     posts = Card.objects.filter(category=card)  # category — це ForeignKey до Card
+#     return render(request, 'category/category_detail.html', {'card': card, 'posts': posts})
+
+def card_detail(request, card_id):
+    card = get_object_or_404(Card, pk=card_id)
+    categories = Category.objects.filter(category=card)
+    return render(request, 'ForumApp/card_detail.html', {
+        'card': card,
+        'categories': categories
+    })

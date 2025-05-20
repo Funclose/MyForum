@@ -1,0 +1,28 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="container">
+  <h2>{{ post.author }}</h2>
+  <p>{{ post.text }}</p>
+  <p>Дата: {{ post.created_at }}</p>
+  <form method="post">
+    {% csrf_token %}
+    <input type="text" name="author" placeholder="Ваше імʼя" required><br>
+    <textarea name="text" placeholder="Коментар" required></textarea><br>
+    <button type="submit">Додати коментар</button>
+  </form>
+
+  <h3>Коментарі:</h3>
+  {% for comment in comments %}
+    <div style="border:1px solid #ccc; margin:10px; padding:10px;">
+      <p><strong>{{ comment.author }}</strong>: {{ comment.text }}</p>
+      <p>👍 {{ comment.likes }} | {{ comment.created_at }}</p>
+      {% if comment.author == request.user.username %}
+        <form method="post" action="{% url 'delete_comment' comment.id %}">
+          {% csrf_token %}
+          <button type="submit">Видалити</button>
+        </form>
+      {% endif %}
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

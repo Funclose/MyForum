@@ -1,30 +1,43 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpRequest
-from ForumApp.models import Category, Card
+from ForumApp.models import Category, Card,Comment
 
 def getAllCategory():
     categories = Category.objects.all()
     return categories
 
-# def home(request:HttpRequest):
-#     getCategories = getAllCategory()
-#     return render(request, 'index.html', {'category': getCategories})
 
 def createCategory(request):
     if request.method == 'POST':
-        title = request.POST.get("title")
-        description = request.POST.get("description")
-        image = request.FILES.get("image")
+        author = request.POST.get("author")
+        text = request.POST.get("text")
+        likes = request.POST.get("likes")
+        dataCreate = request.POST.get("dataCreate")
 
-        Card.objects.create(
-            card_title = title,
-            card_description = description,
-            card_pathImage = image
+        Category.objects.create(
+            author = author,
+            text = text,
+            created_at = dataCreate,
+            likes = 0
         )
-
-       
         return redirect("homePage")
     return render(request, "category/addCategory.html")
+
+def add_post(request, pk):
+    card = get_object_or_404(Card, pk=pk)
+
+    if request.method == 'POST':
+        author = request.POST.get('author')
+        text = request.POST.get('text')
+        if author and text:
+            Category.objects.create(
+                author=author,
+                text=text,
+                category=card
+            )
+            return redirect('categoryPage', pk=pk)  # Возврат на список постов категории
+
+    return render(request, 'category/add_post.html', {'card': card})
     
 
 
@@ -39,27 +52,30 @@ def removeCategory(request, pk):
 
 def category_detail(request, pk):
     card = get_object_or_404(Card, pk=pk)
+
+    if request.method =='POST':
+        author = request.POST.get('author')
+        text = request.POST.get('text')
+        if author and text:
+            Category.objects.create(
+                author = author,
+                text =text,
+                category = card
+            )
+            return redirect('categoryPage', pk=pk) 
     posts = Category.objects.filter(category=card)  # category — це ForeignKey до Card
-    return render(request, 'category/category_detail.html', {'card': card, 'posts': posts})
+    return render(request, 'category/categoryPage.html', {'card': card, 'posts': posts})
 
 
-# def createCategory(request):
-#     if request.method == 'POST':
-#         title = request.POST.get("title")
-#         description = request.POST.get("description")
-#         image = request.FILES.get("image")
+def post_detail(request, pk):
+    post = get_object_or_404(Category, pk=pk)
+    comments = post.comments.all()
 
-#         Category.objects.create(
-#             category_title = title,
-#             category_description = description,
-#             category_pathImage = image
-#         )
+    if request.method == 'POST':
+        author = request.POST.get('author')
+        text = request.POST.get('text')
+        if author and text:
+            Comment.objects.create(post=post, author=author, text=text)
+            return redirect('post_detail', pk=pk)
 
-#         Category.objects.create(
-#             category_title = title,
-#             category_description = description,
-#             category_pathImage = image
-#         )
-#         return redirect("homePage")
-#     return render(request, "category/addCategory.html")
-    
+    return render(request, 'category/post_detail.html', {'post': post, 'comments': comments})

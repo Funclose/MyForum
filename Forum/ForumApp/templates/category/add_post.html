@@ -1,0 +1,14 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="container">
+  <h2>Додати пост до категорії: {{ card.card_title }}</h2>
+
+  <form method="post">
+      {% csrf_token %}
+      <input type="text" name="author" placeholder="Ваше ім'я" class="form-control" required><br>
+      <textarea name="text" placeholder="Текст поста" class="form-control" required></textarea><br>
+      <button type="submit" class="btn btn-success">Додати</button>
+      <a href="{% url 'categoryPage' pk=card.pk %}" class="btn btn-secondary">Скасувати</a>
+  </form>
+</div>
+{% endblock %}

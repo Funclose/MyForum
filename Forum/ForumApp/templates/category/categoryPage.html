@@ -10,10 +10,11 @@
         <p>{{ post.text }}</p>
         <p><strong>Лайки:</strong> {{ post.likes }}</p>
         <p><strong>Дата:</strong> {{ post.created_at }}</p>
-        <a href="#" class="btn btn-info">Перейти до обговорення</a>
+        <a href="{% url 'post_detail' pk=post.pk %}" class="btn btn-info">Перейти до обговорення</a>
     </div>
   {% empty %}
     <p>У цій категорії ще немає постів.</p>
   {% endfor %}
+ <a href="{% url 'add_post' pk=card.pk %}" class="btn btn-primary">Додати новий пост</a>
 </div>
 {% endblock %}
