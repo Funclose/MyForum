@@ -35,7 +35,7 @@ def add_post(request, pk):
                 text=text,
                 category=card
             )
-            return redirect('categoryPage', pk=pk)  # Возврат на список постов категории
+            return redirect('categoryPage', pk=pk)  
 
     return render(request, 'category/add_post.html', {'card': card})
     
@@ -63,7 +63,7 @@ def category_detail(request, pk):
                 category = card
             )
             return redirect('categoryPage', pk=pk) 
-    posts = Category.objects.filter(category=card)  # category — це ForeignKey до Card
+    posts = Category.objects.filter(category=card)  
     return render(request, 'category/categoryPage.html', {'card': card, 'posts': posts})
 
 
