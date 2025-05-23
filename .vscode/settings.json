@@ -9,7 +9,7 @@
             "server": "localhost",
             "port": 3306,
             "driver": "MySQL",
-            "name": "Forum",
+            "name": "serv",
             "database": "forumDB",
             "username": "userDjango",
             "password": "Qwerty2022"

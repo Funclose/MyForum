@@ -12,7 +12,7 @@ urlpatterns = [
     path('card/<int:card_id>/', card_detail, name='card_detail'),
     path('addcategory/', createCategory, name='newPost'), 
     path('category/<int:pk>/add-post/', add_post, name='add_post'),
-    
+    path('logout/', logout_view, name='logout'),
     path('post/<int:pk>/', post_detail, name='post_detail'),
 ]
 

@@ -1,12 +1,13 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpRequest
-from ForumApp.models import Category, Card,Comment
+from ForumApp.models import Category, Card, Comment
+from django.contrib.auth.decorators  import login_required
 
 def getAllCategory():
     categories = Category.objects.all()
     return categories
 
-
+@login_required
 def createCategory(request):
     if request.method == 'POST':
         author = request.POST.get("author")

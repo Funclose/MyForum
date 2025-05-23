@@ -1,11 +1,11 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpRequest
 from ForumApp.models import Card,Category
-
+from django.contrib.auth.decorators  import login_required
 def getAllCategory():
     card = Card.objects.all()
     return card
-
+@login_required
 def createCard(request):
     if request.method == 'POST':
         title = request.POST.get("title")

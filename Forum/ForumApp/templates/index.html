@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.min.css' %}"  media="screen,projection"/>
-    <title>Document</title>
+    <title>Forum</title>
     <style>
         h2 {
    text-align: center; 
@@ -29,13 +29,12 @@ img {
   <header>
         <nav>
             <div class="nav-wrapper">
-              <a href="/home/" class="brand-logo">Logo</a>
+              <a href="/home/" class="brand-logo">MyForum</a>
               <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a href="/content/">contact</a></li>
                 <li><a href="/registration/">registration</a></li>
-                <li><a href="/test/">about</a></li>
                 <li><a href="{% url 'loginPage' %}">login</a></li>
-                <li><a href="/home/">logout</a></li>
+                <li><a href="{% url 'logout' %}">logout</a></li>
               </ul>
             </div>
           </nav>
@@ -58,9 +57,6 @@ img {
    
   {% empty %}
     <p>Категорий пока нет</p>
-    <form action="{% url 'add_category' %}" method="get">
-      <button type="submit" class="btn btn-primary"><strong>Добавить категорию</strong></button>
-    </form>
   {% endfor %}
     <form action="{% url 'add_category' %}" method="get">
       <button type="submit" class="btn btn-primary"><strong>Добавить категорию</strong></button>

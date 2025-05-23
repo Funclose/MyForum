@@ -1,13 +1,36 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 
 
-class User(models.Model):
-    name = models.CharField(null=False, max_length=30)
-    surname = models.CharField(null=False, max_length=30)
-    password = models.TextField(null=True, max_length=60, default='355565')
-    confirmpassword = models.TextField(null=True,  max_length=60,  default='355565')
-    email = models.EmailField(null=False)
+class UserManager(BaseUserManager):
+    def create_user(self, email, password, **extra_fields):
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save()
+        return user
+    
+    def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+        return self.create_user(email, password, **extra_fields)
+
+class User(AbstractBaseUser, PermissionsMixin):
+    nickname = models.CharField(null=True, max_length=255)
+    name = models.CharField(null=False, max_length=255)
+    email = models.EmailField(null=False, unique=True)
     birthday = models.DateField(null=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['name']
+
+    objects = UserManager()
+
+    def __str__(self):
+        return self.email
 
 
 
