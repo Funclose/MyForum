@@ -1,12 +1,12 @@
 {% extends 'index.html' %}
 {% block content %}
 <div class="container">
-  <h1>Категорія: {{ card.card_title }}</h1>
-  <p>{{ card.card_description }}</p>
+  <h1 class="center">Категорія: {{ card.card_title }}</h1>
+  <h3 class="center">Тема: {{ card.card_description }}</h3>
 
   {% for post in posts %}
     <div style="border:1px solid #ddd; margin-bottom:10px; padding:10px;">
-        <p><strong>Автор:</strong> {{ user.profile.nickname  }}</p>
+        <p><strong>Автор:</strong> {{ post.author.profile.nickname  }}</p>
         <p>{{ post.text }}</p>
         <p><strong>Лайки:</strong> {{ post.likes }}</p>
         <p><strong>Дата:</strong> {{ post.created_at }}</p>

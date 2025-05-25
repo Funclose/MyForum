@@ -34,6 +34,9 @@ def register_user_view(request:HttpRequest):
                 'birthday': birthday
             })  
         
+        if User.objects.filter(nickname=nickname).exists():
+            return render(request, "registration/registration.html", {'error':'такой nickName уже занят'})
+        
         newUser = User.objects.create_user(
             name = name,
             nickname = nickname,

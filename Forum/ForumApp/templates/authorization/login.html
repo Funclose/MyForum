@@ -2,12 +2,12 @@
 {% extends 'index.html' %}
 {% load static %}
 {% block content %}
-{% if error %}
-    <div style="color: red;">{{ error }}</div>
-    
-{% endif %}
+
 <form method="post" action="{% url 'loginPage' %}?next={{ request.GET.next }}">
   <h1 class="center">Авторизация</h1>
+  {% if error %}
+    <div class="center" style="color: red;">{{ error }}</div>
+{% endif %}
   <div class="centered-form">
     {% csrf_token %}
     
@@ -20,6 +20,7 @@
       <input type="password" class="form-control" name="password" placeholder="Password">
     </div>
     <button type="submit" class="btn btn-primary">Войти</button>
+    <a href="/registration/">регистрация</a>
   </div>
 </form>
 {% endblock %}

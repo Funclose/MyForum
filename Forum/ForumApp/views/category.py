@@ -33,7 +33,8 @@ def add_post(request, pk):
         if text:
             Category.objects.create(
                 text=text,
-                category=card
+                category=card,
+                author = request.user
             )
             return redirect('categoryPage', pk=pk)  
 
@@ -54,12 +55,12 @@ def category_detail(request, pk):
     card = get_object_or_404(Card, pk=pk)
 
     if request.method =='POST':
-        author = request.POST.get('author')
+        # author = request.POST.get('author')
         text = request.POST.get('text')
-        if author and text:
+        if text:
             Category.objects.create(
-                author = author,
-                text =text,
+                author = request.user,
+                text = text,
                 category = card
             )
             return redirect('categoryPage', pk=pk) 
@@ -74,7 +75,7 @@ def post_detail(request, pk):
     if request.method == 'POST':
         # author = request.POST.get('author')
         text = request.POST.get('text')
-        if  text:
+        if text:
             Comment.objects.create(
                 post=post,
                 author=request.user.profile.nickname, 

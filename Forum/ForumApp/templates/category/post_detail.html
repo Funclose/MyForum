@@ -1,7 +1,9 @@
 {% extends 'index.html' %}
+{% load static %}
+
 {% block content %}
 <div class="container">
-  <p>{{ post.text }}</p>
+  <h2>Обсуждение: {{ post.text }}</h2>
   <p><strong>Дата:</strong> {{ post.created_at }}</p>
 
   <form method="post">
@@ -13,28 +15,39 @@
     <button type="submit" class="btn blue">Додати коментар</button>
   </form>
 
+
+
+
+
   <hr>
   <h4>Коментарі:</h4>
   {% for comment in comments %}
-    <div class="card" style="margin-bottom: 15px;">
-      <div class="card-content">
-        <span class="card-title">{{ comment.author }}</span> <!-- Тут nickname -->
-        <p>{{ comment.text }}</p>
-        <small class="grey-text">
-          👍 {{ comment.likes }} | {{ comment.created_at|date:"d.m.Y H:i" }}
-        </small>
-      </div>
-      {% if comment.author == user.profile.nickname %}
+  <div class="comment-container">
+  <div class="comment-header">
+    {% if comment.author.profile.profile_avatar %}
+      <img src="{{ comment.author.profile.profile_avatar.url }}" class="avatar" >
+    {% else %}
+      <img src="{% static 'assets/profile_img/default_img.jpg' %}" class="avatar">
+    {% endif %}
+    <div class="comment-meta">
+      <strong>{{ comment.author }}</strong>
+      <span class="comment-date"> 👍 {{ comment.likes }} {{ comment.created_at|date:"d.m.Y H:i" }}</span>
+    </div>
+  </div>
+  <p class="comment-text">{{ comment.text }}</p>
+  {% if comment.author == user.profile.nickname %}
         <div class="card-action">
           <form method="post" action="{% url 'delete_comment' comment.id %}">
             {% csrf_token %}
             <button type="submit" class="btn red">Видалити</button>
           </form>
+          {% endif %}
         </div>
-      {% endif %}
-    </div>
-  {% empty %}
+         {% empty %}
     <p>Коментарів поки немає</p>
-  {% endfor %}
+      {% endfor %}
+    
 </div>
 {% endblock %}
+
+   

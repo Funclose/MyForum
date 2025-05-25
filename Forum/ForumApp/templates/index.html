@@ -64,8 +64,13 @@ img {
       <div class="container">
   {% for card in cards %}
     <div class="card mb-3" style="border: 1px solid #ccc; padding: 10px;">
-        <h2>{{ card.card_title }}</h2>
-        <p>{{ card.card_description }}</p>
+      {% if card.card_pathImage %}
+      <img src="{{ card.card_pathImage.url }}" style="max-width: 300px;">
+      {% else %}
+      <img src="{% static 'assets/default.jpg' %}" style="max-width: 300px;">
+      {% endif %}
+        <h2>Тема: {{ card.card_title }}</h2>
+        <p>Описание: {{ card.card_description }}</p>
         {% if card.card_pathImage %} {% endif %}
         <a href="{% url 'categoryPage' card.pk %}" class="btn btn-primary">Перейти</a>
       </div>
