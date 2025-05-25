@@ -6,7 +6,7 @@
 
   {% for post in posts %}
     <div style="border:1px solid #ddd; margin-bottom:10px; padding:10px;">
-        <p><strong>Автор:</strong> {{ post.author }}</p>
+        <p><strong>Автор:</strong> {{ user.profile.nickname  }}</p>
         <p>{{ post.text }}</p>
         <p><strong>Лайки:</strong> {{ post.likes }}</p>
         <p><strong>Дата:</strong> {{ post.created_at }}</p>

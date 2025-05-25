@@ -14,6 +14,8 @@ urlpatterns = [
     path('category/<int:pk>/add-post/', add_post, name='add_post'),
     path('logout/', logout_view, name='logout'),
     path('post/<int:pk>/', post_detail, name='post_detail'),
+    path('profile/', profilePage, name='profile'),
+    path('comment/<int:pk>/delete/', delete_comment, name='delete_comment'),
 ]
 
 

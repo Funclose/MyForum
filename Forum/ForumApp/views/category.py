@@ -28,11 +28,10 @@ def add_post(request, pk):
     card = get_object_or_404(Card, pk=pk)
 
     if request.method == 'POST':
-        author = request.POST.get('author')
+        
         text = request.POST.get('text')
-        if author and text:
+        if text:
             Category.objects.create(
-                author=author,
                 text=text,
                 category=card
             )
@@ -50,7 +49,7 @@ def removeCategory(request, pk):
     return render(request, 'index.html', {'category': getAllCategory})
 
 
-
+@login_required
 def category_detail(request, pk):
     card = get_object_or_404(Card, pk=pk)
 
@@ -73,10 +72,22 @@ def post_detail(request, pk):
     comments = post.comments.all()
 
     if request.method == 'POST':
-        author = request.POST.get('author')
+        # author = request.POST.get('author')
         text = request.POST.get('text')
-        if author and text:
-            Comment.objects.create(post=post, author=author, text=text)
+        if  text:
+            Comment.objects.create(
+                post=post,
+                author=request.user.profile.nickname, 
+                text=text)
             return redirect('post_detail', pk=pk)
 
     return render(request, 'category/post_detail.html', {'post': post, 'comments': comments})
+
+@login_required
+def delete_comment(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+
+    if comment.author == request.user.profile.nickname:
+        comment.delete()
+
+    return redirect('post_detail', pk=comment.post.pk)

@@ -5,7 +5,8 @@
 
   <form method="post">
       {% csrf_token %}
-      <input type="text" name="author" placeholder="Ваше ім'я" class="form-control" required><br>
+      <h4>Вы:</h4> {{ user.profile.nickname }}
+      <!-- <input type="text" name="author" placeholder="Ваше ім'я" class="form-control" required><br> -->
       <textarea name="text" placeholder="Текст поста" class="form-control" required></textarea><br>
       <button type="submit" class="btn btn-success">Додати</button>
       <a href="{% url 'categoryPage' pk=card.pk %}" class="btn btn-secondary">Скасувати</a>

@@ -5,6 +5,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators  import login_required
 from django.contrib import messages
 from ForumApp.models.user import User
+from ForumApp.models.profile import Profile
 
 
 
@@ -15,7 +16,7 @@ def custom_404(request, exception):
 def register_user_view(request:HttpRequest):
     if request.method == 'POST':
         name = request.POST.get('name')
-        nickname = request.POST.get('surname')
+        nickname = request.POST.get('nickname')
         email = request.POST.get('email')
         birthday = request.POST.get("birthday")
         password = request.POST.get('password')
@@ -40,7 +41,7 @@ def register_user_view(request:HttpRequest):
             email = email,
             birthday = birthday
         )
-
+        Profile.objects.create(user=newUser, nickname=nickname)
         login(request, newUser)
         return redirect('homePage')
     return render(request, "registration/registration.html")
@@ -52,6 +53,9 @@ def authorizeUser(request):
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
+            next_url = request.GET.get('next')
+            if next_url:
+                return redirect(next_url)        
             return redirect('homePage')
         else:
             return render(request, "authorization/login.html", {'error': 'Неверный email или пароль'})

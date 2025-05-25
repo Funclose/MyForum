@@ -10,6 +10,9 @@
         h2 {
    text-align: center; 
 }
+.center{
+  margin-left: 0vh;
+}
 p {
   text-align: center;
 }
@@ -19,10 +22,19 @@ img {
     margin: auto;
 }
  .container{
-    display: flex;
+    display: flexbox;
     box-sizing: 1px solid black;
     gap:  10px;
  }
+.centered-form {
+    max-width: 500px;
+    margin: 50px auto; 
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+ 
     </style>
 </head>
 <body>
@@ -30,13 +42,19 @@ img {
         <nav>
             <div class="nav-wrapper">
               <a href="/home/" class="brand-logo">MyForum</a>
+
               <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="/content/">contact</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'profile' %}">My profile</a></li>
+                <li>Привет {{ user.profile.nickname }}</li>
+                <li><a href="{% url 'logout' %}">logout</a></li>
+                {% else %}
                 <li><a href="/registration/">registration</a></li>
                 <li><a href="{% url 'loginPage' %}">login</a></li>
-                <li><a href="{% url 'logout' %}">logout</a></li>
+                {% endif %}
               </ul>
             </div>
+          
           </nav>
     </header>
 
@@ -48,11 +66,9 @@ img {
     <div class="card mb-3" style="border: 1px solid #ccc; padding: 10px;">
         <h2>{{ card.card_title }}</h2>
         <p>{{ card.card_description }}</p>
-        {% if card.card_pathImage %}
-          
-        {% endif %}
+        {% if card.card_pathImage %} {% endif %}
         <a href="{% url 'categoryPage' card.pk %}" class="btn btn-primary">Перейти</a>
-        
+      </div>
     </div>
    
   {% empty %}
@@ -62,6 +78,7 @@ img {
       <button type="submit" class="btn btn-primary"><strong>Добавить категорию</strong></button>
     </form>
       {% endblock %}
+      
     </main>
 
 

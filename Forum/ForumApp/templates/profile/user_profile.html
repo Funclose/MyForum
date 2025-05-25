@@ -1,0 +1,32 @@
+{% extends 'index.html' %}
+
+{% block content %}
+ <h2>Профиль пользователя</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        <div class="centered-form">
+            {% csrf_token %}
+            <p>Email: {{ user.email }}</p>
+
+            <label>Имя:</label>
+            <input type="text" name="name" value="{{ user.name }}" required><br>
+
+            <label>Никнейм:</label>
+            <input type="text" name="nickname" value="{{ profile.nickname }}"><br>
+
+            <label>Дата рождения:</label>
+            <input type="date" name="birthday" value="{{ user.birthday|date:'Y-m-d' }}"><br>
+
+            <label>Новый пароль:</label>
+            <input type="password" name="password"><br>
+
+            <label>Аватар:</label>
+            {% if profile.avatar %}
+                <img src="{{ profile.avatar.url }}" width="100"><br>
+            {% endif %}
+            <input type="file" name="avatar"><br><br>
+
+            <button type="submit" class="btn btn-success">Сохранить изменения</button>
+        </div>
+    </form>
+{% endblock %}
